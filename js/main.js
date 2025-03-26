@@ -76,7 +76,7 @@ const articulos = [
 
 console.log("***SISTEMA VENTAS***");
 console.log("***Bienvenido a la tienda de telefonía móvil***");
-console.log("**Menú de opciones**");
+console.log("**Menú de opciones** \n\n\n");
 
 let opcion = 0;
 let carrito = [];
@@ -112,7 +112,7 @@ do {
       break;
     case 6:
       console.log("***Salir***");
-
+      finalizar();
       break;
     default:
       alert("Opción no válida, por favor, elige una opción válida.");
@@ -160,12 +160,16 @@ function agregarAlCarrito() {
 }
 
 function verCarrito() {
-  console.clear();
+  if (carrito.length === 0) {
+    alert("El carrito está vacío.");
+    console.clear();
+    return;
+  }
   let salida = "";
   console.log("***Carrito de compras*** VISUALIZAR CARRITO");
   for (const elemento of carrito) {
-    salida += "-------------------- \n";
-    salida +=  ` Producto: ${elemento.item.nombre}\n 
+    salida += "--------------------------------- \n";
+    salida += ` Producto: ${elemento.item.nombre}\n 
                  Cantidad: ${elemento.cantidad}\n 
                  Precio: ${elemento.item.precio}\n 
                  Total: ${totalItem(elemento)}\n 
@@ -209,7 +213,7 @@ function totalCarrito() {
   return total;
 }
 
-function totalItem(it){
+function totalItem(it) {
   return it.item.precio * it.cantidad;
 }
 
@@ -217,4 +221,17 @@ function verTotal() {
   console.clear();
   console.log(`El total de la compra es: \$ ${totalCarrito()}`);
   console.log(`El detalle de tu compra: \n ${verCarrito()}`);
+}
+
+function finalizar() {
+  if (carrito.length === 0) {
+    alert("Carrito vacío");
+  } else {
+    console.clear();
+    alert(
+      `Gracias por tu compra el numero de tu pedido es: ${Math.getRandomInt(
+        1236544987
+      )}`
+    );
+  }
 }
