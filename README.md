@@ -1,3 +1,3 @@
 # JS-primera-entrega
-Hertzan Gabriel
-Carrito de compras
+## Hertzan Gabriel
+### Carrito de compras
