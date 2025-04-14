@@ -99,24 +99,38 @@ function verCatalogo(arrProductos) {
         <p class="card-text">Sistema: ${producto.sistema}</p>
         <p class="card-text">Stock: ${producto.stock}</p>
         <p class="card-text">Precio: $ ${producto.precio}</p>
-        <input type="number" id="cantidad-${producto.id}" min = 0 max = ${producto.stock}></input>
+        <input type="number" id="cantidad-${producto.id}" min = 0 max = ${producto.stock} value=0></input>
         <button class="btn btn-primary agregarProducto" id=${producto.id}>Agregar</button>
       </div>
     `
     seccionOfertas.appendChild(card)
   })
+  agregarAlCarrito()
 }
 
-verCatalogo(articulos)
+
 
 function agregarAlCarrito(){
-  let agregarProducto = document.querySelectorAll(".agregarProducto")
-  agregarProducto.forEach(btn => {
-    btn.onclick = (e) => {
-      let productId = e.currentTarget.id
-      let selectedArticle = articulos.find(art => art.id == productId)
+  let carritoStorage = sessionStorage.getItem("carrito")
+  if(carritoStorage){
+    carrito = JSON.parse(carritoStorage)
+    
+  }
+  let botones = document.querySelectorAll(".agregarProducto")
+  botones.forEach(element => {
+    element.onclick = (e) =>{
+      let itemId = e.currentTarget.id
+      let cantTxt = document.getElementById("cantidad-"+itemId).value
       
-    } 
+      if(cantTxt != 0){
+        let item = articulos.find(articulo => articulo.id == itemId)
+        carrito.push({articulo: item, cantidad: cantTxt})
+        sessionStorage.setItem("carrito", JSON.stringify(carrito))
+      }
+      console.log(carrito)
+    }
   })
 }
 
+//Inicio
+verCatalogo(articulos)
