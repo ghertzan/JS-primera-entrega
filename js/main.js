@@ -114,7 +114,6 @@ function agregarAlCarrito(){
   let carritoStorage = sessionStorage.getItem("carrito")
   if(carritoStorage){
     carrito = JSON.parse(carritoStorage)
-    
   }
   let botones = document.querySelectorAll(".agregarProducto")
   botones.forEach(element => {
