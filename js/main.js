@@ -64,52 +64,69 @@ function verCatalogo(arrProductos) {
   let seccionOfertas = document.getElementById("seccion-ofertas")
 
   arrProductos.forEach((producto) => {
-    let card = document.createElement("div")
+    const {id, nombre, sistema, stock, img, precio} = producto
+
+    const card = document.createElement("div")
     card.className = "card"
-    card.innerHTML = `
-      <img src= ${producto.img} class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">${producto.nombre}</h5>
-        <p class="card-text">Sistema: ${producto.sistema}</p>
-        <p class="card-text">Stock: ${producto.stock}</p>
-        <p class="card-text">Precio: $ ${producto.precio}</p>
-        <input type="number" id="cantidad-${producto.id}" min = 0 max = ${producto.stock} value=0></input>
-        <button class="btn btn-primary agregarProducto" id=${producto.id}>Agregar</button>
-      </div>
-    `
+
+    const imgCard = document.createElement("img")
+    imgCard.src = img
+    imgCard.alt =" imagende celular"
+    imgCard.className= "card-img-top"
+
+    const divCardBody = document.createElement("div")
+    divCardBody.className = "card-body"
+
+    const h5Nombre = document.createElement("h5")
+    h5Nombre.className="card-title"
+    h5Nombre.textContent = nombre
+
+    const pSistema = document.createElement("p")
+    pSistema.className = "card-text"
+    pSistema.textContent = "Sistema Op: " + sistema
+
+    const pStock = document.createElement("p")
+    pStock.className = "card-text"
+    pStock.textContent = "Stock: " + stock
+
+    const pPrecio = document.createElement("p")
+    pPrecio.className = "card-text"
+    pPrecio.textContent = "Precio: $" + precio
+
+    const inputCantidad = document.createElement("input")
+    inputCantidad.type='number'
+    inputCantidad.className = "cantidadPedida"
+    inputCantidad.min='1'
+    inputCantidad.max = stock
+    inputCantidad.value='1'
+    inputCantidad.id = "cantidad-"+id
+
+    const btnAgregar = document.createElement("button")
+    btnAgregar.className="btn btn-primary agregarProducto mt-2 gh-btn"
+    btnAgregar.textContent = "Agregar"
+    btnAgregar.onclick = () => agregarAlCarrito(producto, inputCantidad.value)
+
+    divCardBody.append(h5Nombre, pSistema, pStock, pPrecio, inputCantidad, btnAgregar)
+    card.append(imgCard, divCardBody)
     seccionOfertas.appendChild(card)
   })
-  agregarAlCarrito()
 }
 
 
-function agregarAlCarrito() {
-  let carritoStorage = sessionStorage.getItem("carrito")
-  if (carritoStorage) {
-    carrito = JSON.parse(carritoStorage)
-  }
-  let botones = document.querySelectorAll(".agregarProducto")
-  botones.forEach(element => {
-    element.onclick = (e) => {
-      let itemId = e.currentTarget.id
-      let cantTxt = document.getElementById("cantidad-" + itemId).value
-      if (cantTxt != 0) {
-        if (carrito.some(e => e.articulo.id == itemId)) {
-          carrito.forEach((element) => {
-            if (element.articulo.id == itemId) {
-              element.cantidad = parseInt(element.cantidad) + parseInt(cantTxt)
-              console.log(element.cantidad)
-            }
-          })
-        } else {
-          let item = articulos.find(articulo => articulo.id == itemId)
-          carrito.push({ articulo: item, cantidad: parseInt(cantTxt) })
-        }
-        sessionStorage.setItem("carrito", JSON.stringify(carrito))
+function agregarAlCarrito(producto, cant) {
+  
+  const exist = carrito.some(e => e.articulo.id == producto.id)
+  if(exist){
+    carrito.forEach(e => {
+      if(e.articulo.id == producto.id){
+        e.cantidad = parseInt(e.cantidad) + parseInt(cant)
       }
-      console.log(carrito)
-    }
-  })
+    })
+  }else{
+    carrito.push({articulo: producto, cantidad: cant})
+  }
+  sessionStorage.setItem("carrito", JSON.stringify(carrito))
+  console.log(carrito)
 }
 
 //Inicio

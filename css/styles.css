@@ -1,9 +1,52 @@
 .card{
     width: 18rem;
     margin: 1rem;
+    border: 1px solid #ffffff !important;
+    
 
 }
 
 .card-img-top{
-    width: 7rem;
+    width: auto;
+    height: 10rem;
+    object-fit: cover;
+}
+
+td {
+    text-align: center;
+    /* margin: 0 auto; */
+}
+
+th {
+    text-align: center;
+    /* margin: 0 auto; */
+}
+
+.cantidadPedida{
+    border-radius: 5px;
+    background-color: #def;
+    text-align: right;
+    width: 3rem;
+}
+
+.gh-btn{
+    margin-left: 1rem;
+}
+
+.gh-table{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+body{
+    background-color: #f0f0f0;
+}
+
+.container{
+    margin-top: 2rem;
+    background-color: rgb(226, 217, 217);
+}
+
+.gh-navbar{
+    border-radius: 5px;
 }

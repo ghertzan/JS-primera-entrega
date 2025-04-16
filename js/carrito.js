@@ -10,10 +10,11 @@ function htmlCarrito() {
     htmlLimpiar()
     let articulosCarrito = document.getElementById("articulosCarrito")
     const carritoStorage = sessionStorage.getItem("carrito")
-    if (carritoStorage) {
-        carrito = JSON.parse(carritoStorage)
+    carrito = JSON.parse(carritoStorage)
+    console.log(carrito)
+    if (carrito ) {
         let table = document.createElement("table")
-        table.className = "table table-striped table-hover"
+        table.className = "table table-striped table-hover gh-table"
         table.innerHTML = `
      <thead>
         <tr>
@@ -29,11 +30,11 @@ function htmlCarrito() {
         let tbody = document.createElement("tbody")
 
         carrito.forEach(prod => {
-            const { articulo, cantidad } = prod;
+            const { articulo, cantidad} = prod;
             const tr = document.createElement("tr")
             const thItem = document.createElement("th")
             thItem.scope = "row"
-            thItem.innerText = articulo.id
+            thItem.innerText = carrito.indexOf(prod) + 1
 
             const tdNombre = document.createElement("td")
             const pNombre = document.createElement("p")
@@ -47,7 +48,7 @@ function htmlCarrito() {
             pCantidad.value = cantidad      
             pCantidad.size = '1'
             pCantidad.className = "cantidadPedida" 
-            pCantidad.id = "cantidad-" + articulo.id 
+            pCantidad.onchange = () => cambiarCantidad(articulo.id, pCantidad.value)
             tdCantidad.appendChild(pCantidad)
 
             const tdPrecio = document.createElement("td")
@@ -62,8 +63,8 @@ function htmlCarrito() {
 
             const tdEliminar = document.createElement("td")
             const btnEliminar = document.createElement("button")
-            btnEliminar.id = articulo.id
             btnEliminar.className ="btn-close eliminarProducto"
+            btnEliminar.onclick = () => eliminarProducto(articulo.id)
             tdEliminar.appendChild(btnEliminar)
 
 
@@ -76,50 +77,33 @@ function htmlCarrito() {
         h2Total.textContent = "$ " + carrito.reduce((acc, e) => {
             return acc += (parseInt(e.articulo.precio) * parseInt(e.cantidad))
         },0)
+        h2Total.className="display-2 col-12"
         articulosCarrito.appendChild(table)
         articulosCarrito.appendChild(h2Total)
     } else {
         const pMensaje = document.createElement("p")
         pMensaje.textContent = "Tu carrito está vacío..."
+        pMensaje.className="display-4"
         articulosCarrito.appendChild(pMensaje)
     }
-    eliminarProducto()
-    cambiarCantidad()
+}
+
+function eliminarProducto(id) {
+    carrito = carrito.filter(producto => producto.articulo.id != id)
+    console.log(carrito.length)
+    sessionStorage.setItem("carrito", JSON.stringify(carrito))
+    htmlCarrito()
+}
+
+function cambiarCantidad(id, cant){
     
-
-}
-
-function eliminarProducto() {
-    let btnEliminarProductos = document.querySelectorAll(".eliminarProducto")
-    btnEliminarProductos.forEach(btn => {
-        btn.onclick = (e) => {
-            let itemEliminarId = e.currentTarget.id
-            carrito = carrito.filter(el => (el.articulo.id != itemEliminarId))
-            sessionStorage.removeItem("carrito")
-            sessionStorage.setItem("carrito", JSON.stringify(carrito))
-            htmlCarrito()
+    carrito.forEach( e =>{
+        if(e.articulo.id == id){
+            e.cantidad = cant
         }
     })
-   
-}
-
-function cambiarCantidad(){
-    let inputsCantidad = document.querySelectorAll(".cantidadPedida")
-    inputsCantidad.forEach(e => {
-        e.onchange = () => {
-            let itemIdTxt = e.id
-            let itemId = itemIdTxt.slice(-1)
-            carrito.forEach(el => {
-                if(el.articulo.id == itemId){
-                    el.cantidad = e.value
-                    sessionStorage.removeItem("carrito")
-                    sessionStorage.setItem("carrito", JSON.stringify(carrito))
-                }
-            })
-            htmlCarrito()
-        }
-    })
-
+    sessionStorage.setItem("carrito", JSON.stringify(carrito))
+    htmlCarrito()
 }
 
 htmlCarrito()
