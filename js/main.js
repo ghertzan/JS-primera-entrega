@@ -109,21 +109,28 @@ function verCatalogo(arrProductos) {
 }
 
 
-
-function agregarAlCarrito(){
+function agregarAlCarrito() {
   let carritoStorage = sessionStorage.getItem("carrito")
-  if(carritoStorage){
+  if (carritoStorage) {
     carrito = JSON.parse(carritoStorage)
   }
   let botones = document.querySelectorAll(".agregarProducto")
   botones.forEach(element => {
-    element.onclick = (e) =>{
+    element.onclick = (e) => {
       let itemId = e.currentTarget.id
-      let cantTxt = document.getElementById("cantidad-"+itemId).value
-      
-      if(cantTxt != 0){
-        let item = articulos.find(articulo => articulo.id == itemId)
-        carrito.push({articulo: item, cantidad: cantTxt})
+      let cantTxt = document.getElementById("cantidad-" + itemId).value
+      if (cantTxt != 0) {
+        if (carrito.some(e => e.articulo.id == itemId)) {
+          carrito.forEach((element) => {
+            if (element.articulo.id == itemId) {
+              element.cantidad = parseInt(element.cantidad) + parseInt(cantTxt)
+              console.log(element.cantidad)
+            }
+          })
+        } else {
+          let item = articulos.find(articulo => articulo.id == itemId)
+          carrito.push({ articulo: item, cantidad: parseInt(cantTxt) })
+        }
         sessionStorage.setItem("carrito", JSON.stringify(carrito))
       }
       console.log(carrito)
