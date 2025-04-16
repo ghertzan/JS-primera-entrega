@@ -5,6 +5,7 @@ const articulo1 = {
   nombre: "Celkon A9",
   sistema: "Feature phone",
   stock: 10,
+  img: "../img/ID1.jpg",
   precio: 433,
 };
 const articulo2 = {
@@ -12,6 +13,7 @@ const articulo2 = {
   nombre: "ZTE Grand X2",
   sistema: "Android 5.1",
   stock: 50,
+  img: "../img/ID2.jpg",
   precio: 1286,
 };
 const articulo3 = {
@@ -19,6 +21,7 @@ const articulo3 = {
   nombre: "alcatel OT-980",
   sistema: "Android 2.1",
   stock: 23,
+  img: "../img/ID3.jpg",
   precio: 1518,
 };
 const articulo4 = {
@@ -26,6 +29,7 @@ const articulo4 = {
   nombre: "Philips C700",
   sistema: "Feature phone",
   stock: 3,
+  img: "../img/ID4.jpg",
   precio: 449,
 };
 const articulo5 = {
@@ -33,6 +37,7 @@ const articulo5 = {
   nombre: "Samsung Galaxy A20",
   sistema: "Android 9.0, up to Android 11, One UI 3.1",
   stock: 15,
+  img: "../img/ID5.jpg",
   precio: 1514,
 };
 const articulo6 = {
@@ -40,37 +45,9 @@ const articulo6 = {
   nombre: "Micromax X40",
   sistema: "Feature phone",
   stock: 5,
+  img: "../img/ID6.jpg",
   precio: 1413,
 };
-const articulo7 = {
-  id: 7,
-  nombre: "Motorola V50",
-  sistema: "Feature phone",
-  stock: 6,
-  precio: 1522,
-};
-const articulo8 = {
-  id: 8,
-  nombre: "LG Watch W7",
-  sistema: "Android Wear OS 2.0",
-  stock: 10,
-  precio: 875,
-};
-const articulo9 = {
-  id: 9,
-  nombre: "Samsung C3530",
-  sistema: "Feature phone",
-  stock: 7,
-  precio: 385,
-};
-const articulo10 = {
-  id: 10,
-  nombre: "Huawei Fusion 2 U8665",
-  stock: 9,
-  sistema: "Android 2.3",
-  precio: 1468,
-};
-
 const articulos = [
   articulo1,
   articulo2,
@@ -78,10 +55,6 @@ const articulos = [
   articulo4,
   articulo5,
   articulo6,
-  articulo7,
-  articulo8,
-  articulo9,
-  articulo10,
 ];
 
 let carrito = []
@@ -94,6 +67,7 @@ function verCatalogo(arrProductos) {
     let card = document.createElement("div")
     card.className = "card"
     card.innerHTML = `
+      <img src= ${producto.img} class="card-img-top" alt="...">
       <div class="card-body">
         <h5 class="card-title">${producto.nombre}</h5>
         <p class="card-text">Sistema: ${producto.sistema}</p>
